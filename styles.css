@@ -1,0 +1,510 @@
+:root {
+  /* Paleta de colors per a tema gris fosc */
+  color-scheme: dark;
+  /* Desplegables, scrollbars i controls natius en fosc */
+  --bg-color: #18181b;
+  /* Fons general */
+  --card-bg: #27272a;
+  /* Fons de les targetes i contenidors */
+  --header-bg: #212124;
+  /* Fons capçaleres de columna */
+  --header-hover: #2c2c30;
+  /* Capçalera en hover */
+  --card-done-bg: #232326;
+  /* Targeta completada */
+  --accent: #6366f1;
+  /* Color d'accentuació (Indigo 500) */
+  --accent-hover: #818cf8;
+  /* Accent en hover (Indigo 400) */
+  --accent-text: #a5b4fc;
+  /* Accent per a text sobre fons fosc (Indigo 300) */
+  --accent-soft: rgba(99, 102, 241, 0.14);
+  /* Accent molt suau */
+  --text-main: #e4e4e7;
+  /* Text principal */
+  --text-muted: #a1a1aa;
+  /* Text secundari */
+  --text-faint: #71717a;
+  /* Placeholders i textos molt suaus */
+  --border-color: #3f3f46;
+  /* Vores suaus */
+  --border-strong: #52525b;
+  /* Vores en hover */
+  --divider: #323236;
+  /* Línies separadores internes */
+  --success: #10b981;
+  /* Verd d'èxit */
+  --warning: #f59e0b;
+  /* Taronja "en procés" */
+  --danger: #f87171;
+  /* Vermell eliminar */
+  --danger-soft: rgba(248, 113, 113, 0.12);
+  --danger-border: rgba(248, 113, 113, 0.4);
+
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 6px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html {
+  min-height: 100%;
+  /* Fons: degradat suau amb taques de color + trama de punts */
+  background-color: var(--bg-color);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0),
+    radial-gradient(ellipse 60% 50% at 0% 0%, rgba(99, 102, 241, 0.10), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 100% 100%, rgba(16, 185, 129, 0.06), transparent 70%),
+    linear-gradient(180deg, #1c1c1f 0%, #141416 100%);
+  background-size: 22px 22px, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+body {
+  background: transparent;
+  color: var(--text-main);
+  padding: 2.5rem 2rem;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* ---------- Capçalera ---------- */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--accent-text);
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ---------- Formulari ---------- */
+
+.form-container {
+  background-color: var(--card-bg);
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-group {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+input,
+select {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  flex-grow: 1;
+  min-width: 160px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input::placeholder {
+  color: var(--text-faint);
+}
+
+input:hover,
+select:hover {
+  border-color: var(--border-strong);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Fix per a la visibilitat de les opcions dels desplegables */
+option {
+  background-color: var(--card-bg);
+  color: var(--text-main);
+}
+
+/* ---------- Botons ---------- */
+
+button,
+select.task-status-select {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 0.3rem 0.55rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+select.task-status-select {
+  flex-grow: 0;
+  min-width: 0;
+  margin-right: auto;
+}
+
+button:hover,
+select.task-status-select:hover {
+  background-color: var(--header-hover);
+  border-color: var(--border-strong);
+}
+
+button.btn-primary,
+button.btn-help {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+button.btn-primary {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+}
+
+button.btn-help {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+button.btn-primary:hover,
+button.btn-help:hover {
+  background-color: #4f46e5;
+}
+
+button.btn-up,
+button.btn-down {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  color: var(--text-muted);
+}
+
+button.btn-up:hover,
+button.btn-down:hover {
+  color: var(--accent-text);
+  border-color: var(--accent);
+  background-color: var(--accent-soft);
+}
+
+button.btn-delete {
+  border-color: var(--danger-border);
+  color: var(--danger);
+  height: 28px;
+}
+
+button.btn-delete:hover {
+  background-color: var(--danger-soft);
+  border-color: var(--danger);
+}
+
+/* ---------- Tauler i columnes ---------- */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.column {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  border-top: 4px solid var(--accent);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Color propi per a cada estat */
+.column[data-status="in-progress"] {
+  border-top-color: var(--warning);
+}
+
+.column[data-status="done"] {
+  border-top-color: var(--success);
+}
+
+.column-header {
+  padding: 0.9rem 1rem;
+  background-color: var(--header-bg);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.15s ease;
+}
+
+.column-header:hover {
+  background-color: var(--header-hover);
+}
+
+.column-header h2 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.toggle-icon {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.column-content {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  /* Alçada mínima perquè s'hi pugui deixar anar una targeta encara que estigui buida */
+  min-height: 80px;
+}
+
+.column-content.collapsed {
+  display: none;
+}
+
+/* Estat buit: missatge suau quan una columna no té tasques */
+.column-content:empty::after {
+  content: 'Cap tasca';
+  display: block;
+  text-align: center;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+  padding: 1.25rem 0;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+/* ---------- Targetes ---------- */
+
+.task-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.task-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.task-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--text-main);
+}
+
+.task-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.task-card.completed {
+  border-left: 4px solid var(--success);
+  background-color: var(--card-done-bg);
+}
+
+.task-card.completed h3 {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.task-card.completed p {
+  opacity: 0.7;
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.card-top h3 {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--divider);
+}
+
+/* ---------- Drag & drop (SortableJS) ---------- */
+
+.drag-handle {
+  cursor: grab;
+  color: var(--border-strong);
+  font-size: 1.1rem;
+  line-height: 1.3;
+  padding: 0 0.15rem;
+  user-select: none;
+  touch-action: none;
+  transition: color 0.15s ease;
+}
+
+.task-card:hover .drag-handle {
+  color: var(--text-muted);
+}
+
+.drag-handle:hover,
+.task-card:hover .drag-handle:hover {
+  color: var(--accent-text);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Classes que aplica SortableJS */
+
+/* Hueco on caurà la targeta: només es veu el requadre puntejat */
+.sortable-ghost {
+  background-color: var(--accent-soft) !important;
+  border: 2px dashed var(--accent) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.sortable-ghost > * {
+  visibility: hidden;
+}
+
+/* Targeta que es mou amb el ratolí (clon de SortableJS) */
+.sortable-fallback {
+  opacity: 1 !important;
+  rotate: 3deg;
+  scale: 1.04;
+  border-color: var(--accent) !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(99, 102, 241, 0.4) !important;
+  cursor: grabbing !important;
+  z-index: 9999;
+}
+
+/* Mentre s'arrossega: les columnes es marquen com a zona on deixar anar */
+.board.is-dragging .column-content {
+  background-color: rgba(99, 102, 241, 0.05);
+  outline: 2px dashed rgba(99, 102, 241, 0.3);
+  outline-offset: -8px;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease;
+}
+
+.board.is-dragging .column-content:hover {
+  background-color: rgba(99, 102, 241, 0.12);
+  outline-color: rgba(99, 102, 241, 0.65);
+}
+
+.board.is-dragging .column-content:empty::after {
+  content: 'Deixa-la aquí';
+  color: var(--accent-text);
+  border-color: transparent;
+}
+
+/* Destell en deixar anar la targeta */
+.task-card.just-moved {
+  animation: just-moved 0.6s ease;
+}
+
+@keyframes just-moved {
+  0% {
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5);
+    transform: scale(1.02);
+  }
+
+  100% {
+    box-shadow: 0 0 0 12px rgba(79, 70, 229, 0);
+    transform: scale(1);
+  }
+}
+
+/* ---------- Driver.js: ajust de colors al tema de l'app ---------- */
+
+.driver-popover {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  border-radius: var(--radius-lg);
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.driver-popover .driver-popover-title {
+  color: var(--text-main);
+}
+
+.driver-popover .driver-popover-description,
+.driver-popover .driver-popover-progress-text {
+  color: var(--text-muted);
+}
+
+.driver-popover .driver-popover-close-btn {
+  color: var(--text-muted);
+}
+
+.driver-popover .driver-popover-prev-btn {
+  background-color: var(--header-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  text-shadow: none;
+}
+
+/* Fletxa del popover amb el mateix color de fons */
+.driver-popover-arrow-side-left.driver-popover-arrow { border-left-color: var(--card-bg); }
+.driver-popover-arrow-side-right.driver-popover-arrow { border-right-color: var(--card-bg); }
+.driver-popover-arrow-side-top.driver-popover-arrow { border-top-color: var(--card-bg); }
+.driver-popover-arrow-side-bottom.driver-popover-arrow { border-bottom-color: var(--card-bg); }
+
+.driver-popover .driver-popover-next-btn {
+  background-color: var(--accent);
+  color: white;
+  text-shadow: none;
+  border: none;
+}
+
+/* Driver.js posa fons clar en hover i focus: el sobreescrivim per no perdre el text blanc */
+.driver-popover .driver-popover-footer .driver-popover-next-btn:hover,
+.driver-popover .driver-popover-footer .driver-popover-next-btn:focus {
+  background-color: var(--accent-hover);
+  color: white;
+}
