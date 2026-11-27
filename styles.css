@@ -1,43 +1,25 @@
+/* ---- Variables ---- */
+
 :root {
-  /* Paleta de colors per a tema gris fosc */
   color-scheme: dark;
-  /* Desplegables, scrollbars i controls natius en fosc */
   --bg-color: #18181b;
-  /* Fons general */
   --card-bg: #27272a;
-  /* Fons de les targetes i contenidors */
   --header-bg: #212124;
-  /* Fons capçaleres de columna */
   --header-hover: #2c2c30;
-  /* Capçalera en hover */
   --card-done-bg: #232326;
-  /* Targeta completada */
   --accent: #6366f1;
-  /* Color d'accentuació (Indigo 500) */
   --accent-hover: #818cf8;
-  /* Accent en hover (Indigo 400) */
   --accent-text: #a5b4fc;
-  /* Accent per a text sobre fons fosc (Indigo 300) */
   --accent-soft: rgba(99, 102, 241, 0.14);
-  /* Accent molt suau */
   --text-main: #e4e4e7;
-  /* Text principal */
   --text-muted: #a1a1aa;
-  /* Text secundari */
   --text-faint: #71717a;
-  /* Placeholders i textos molt suaus */
   --border-color: #3f3f46;
-  /* Vores suaus */
   --border-strong: #52525b;
-  /* Vores en hover */
   --divider: #323236;
-  /* Línies separadores internes */
   --success: #10b981;
-  /* Verd d'èxit */
   --warning: #f59e0b;
-  /* Taronja "en procés" */
   --danger: #f87171;
-  /* Vermell eliminar */
   --danger-soft: rgba(248, 113, 113, 0.12);
   --danger-border: rgba(248, 113, 113, 0.4);
 
@@ -48,6 +30,8 @@
   --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
+/* ---- Base ---- */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -57,7 +41,6 @@
 
 html {
   min-height: 100%;
-  /* Fons: degradat suau amb taques de color + trama de punts */
   background-color: var(--bg-color);
   background-image:
     radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1px, transparent 0),
@@ -78,7 +61,7 @@ body {
   line-height: 1.5;
 }
 
-/* ---------- Capçalera ---------- */
+/* ---- Cabecera ---- */
 
 header {
   display: flex;
@@ -100,7 +83,7 @@ h1 {
   gap: 0.75rem;
 }
 
-/* ---------- Formulari ---------- */
+/* ---- Formulario ---- */
 
 .form-container {
   background-color: var(--card-bg);
@@ -146,13 +129,12 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
 }
 
-/* Fix per a la visibilitat de les opcions dels desplegables */
 option {
   background-color: var(--card-bg);
   color: var(--text-main);
 }
 
-/* ---------- Botons ---------- */
+/* ---- Botones ---- */
 
 button,
 select.task-status-select {
@@ -229,7 +211,7 @@ button.btn-delete:hover {
   border-color: var(--danger);
 }
 
-/* ---------- Tauler i columnes ---------- */
+/* ---- Tablero y columnas ---- */
 
 .board {
   display: grid;
@@ -247,7 +229,6 @@ button.btn-delete:hover {
   box-shadow: var(--shadow-sm);
 }
 
-/* Color propi per a cada estat */
 .column[data-status="in-progress"] {
   border-top-color: var(--warning);
 }
@@ -288,7 +269,6 @@ button.btn-delete:hover {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  /* Alçada mínima perquè s'hi pugui deixar anar una targeta encara que estigui buida */
   min-height: 80px;
 }
 
@@ -296,7 +276,6 @@ button.btn-delete:hover {
   display: none;
 }
 
-/* Estat buit: missatge suau quan una columna no té tasques */
 .column-content:empty::after {
   content: 'Cap tasca';
   display: block;
@@ -308,7 +287,7 @@ button.btn-delete:hover {
   border-radius: var(--radius-md);
 }
 
-/* ---------- Targetes ---------- */
+/* ---- Tarjetas ---- */
 
 .task-card {
   background-color: var(--card-bg);
@@ -371,7 +350,7 @@ button.btn-delete:hover {
   border-top: 1px solid var(--divider);
 }
 
-/* ---------- Drag & drop (SortableJS) ---------- */
+/* ---- Drag & drop (SortableJS) ---- */
 
 .drag-handle {
   cursor: grab;
@@ -397,9 +376,6 @@ button.btn-delete:hover {
   cursor: grabbing;
 }
 
-/* Classes que aplica SortableJS */
-
-/* Hueco on caurà la targeta: només es veu el requadre puntejat */
 .sortable-ghost {
   background-color: var(--accent-soft) !important;
   border: 2px dashed var(--accent) !important;
@@ -411,7 +387,6 @@ button.btn-delete:hover {
   visibility: hidden;
 }
 
-/* Targeta que es mou amb el ratolí (clon de SortableJS) */
 .sortable-fallback {
   opacity: 1 !important;
   rotate: 3deg;
@@ -422,7 +397,6 @@ button.btn-delete:hover {
   z-index: 9999;
 }
 
-/* Mentre s'arrossega: les columnes es marquen com a zona on deixar anar */
 .board.is-dragging .column-content {
   background-color: rgba(99, 102, 241, 0.05);
   outline: 2px dashed rgba(99, 102, 241, 0.3);
@@ -442,7 +416,6 @@ button.btn-delete:hover {
   border-color: transparent;
 }
 
-/* Destell en deixar anar la targeta */
 .task-card.just-moved {
   animation: just-moved 0.6s ease;
 }
@@ -459,7 +432,7 @@ button.btn-delete:hover {
   }
 }
 
-/* ---------- Driver.js: ajust de colors al tema de l'app ---------- */
+/* ---- Tutorial (Driver.js) ---- */
 
 .driver-popover {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -478,18 +451,45 @@ button.btn-delete:hover {
   color: var(--text-muted);
 }
 
+.driver-popover .driver-popover-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.driver-popover .driver-popover-description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .driver-popover .driver-popover-close-btn {
   color: var(--text-muted);
 }
 
-.driver-popover .driver-popover-prev-btn {
-  background-color: var(--header-bg);
+.driver-popover .driver-popover-close-btn:hover,
+.driver-popover .driver-popover-close-btn:focus {
   color: var(--text-main);
-  border: 1px solid var(--border-color);
+}
+
+.driver-popover .driver-popover-footer button {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
   text-shadow: none;
 }
 
-/* Fletxa del popover amb el mateix color de fons */
+.driver-popover .driver-popover-footer .driver-popover-prev-btn {
+  background-color: var(--header-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+}
+
+.driver-popover .driver-popover-footer .driver-popover-prev-btn:hover,
+.driver-popover .driver-popover-footer .driver-popover-prev-btn:focus {
+  background-color: var(--header-hover);
+  color: var(--text-main);
+  border-color: var(--border-strong);
+}
+
 .driver-popover-arrow-side-left.driver-popover-arrow { border-left-color: var(--card-bg); }
 .driver-popover-arrow-side-right.driver-popover-arrow { border-right-color: var(--card-bg); }
 .driver-popover-arrow-side-top.driver-popover-arrow { border-top-color: var(--card-bg); }
@@ -502,7 +502,6 @@ button.btn-delete:hover {
   border: none;
 }
 
-/* Driver.js posa fons clar en hover i focus: el sobreescrivim per no perdre el text blanc */
 .driver-popover .driver-popover-footer .driver-popover-next-btn:hover,
 .driver-popover .driver-popover-footer .driver-popover-next-btn:focus {
   background-color: var(--accent-hover);

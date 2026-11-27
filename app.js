@@ -1,11 +1,17 @@
+// ---- Estado inicial ----
+
 let state = [
   { id: '101', title: 'Dissenyar base de dades', description: 'Crear esquema ERD', status: 'todo' },
   { id: '102', title: 'Configurar servidor Node', description: 'Express i CORS', status: 'in-progress' }
 ];
 
+// ---- Referencias al DOM ----
+
 const board = document.getElementById('board');
 const form = document.getElementById('new-task-form');
 const template = document.getElementById('task-card-template');
+
+// ---- Inicialización ----
 
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
@@ -19,30 +25,24 @@ function initApp() {
   setupHelpTour(); 
 }
 
-// MÒDUL 1 & 2
+// ---- Renderizado de tarjetas ----
+
 function createTaskCard(task) {
-  // TODO M1.1: Clonar el template (.content.cloneNode(true))
   const clone = template.content.cloneNode(true);
-  // TODO M2.1: Assignar l'ID a l'atribut data-task-id de la targeta
   const tarjeta = clone.querySelector('.task-card');
   tarjeta.dataset.taskId = task.id;
-  // TODO M1.2: Omplir el títol (.task-title) i descripció (.task-desc)
   clone.querySelector('.task-title').textContent = task.title;
   clone.querySelector('.task-desc').textContent = task.description;
 
-  // TODO M2.2: Assignar el valor del select (.task-status-select) segons task.status
   clone.querySelector('.task-status-select').value = task.status;
 
-  // TODO M2.3: Si task.status === 'done', afegir la classe 'completed'
   if (task.status === 'done') {
     tarjeta.classList.add('completed');
   }
-  // TODO M1.3: Retornar el node clonat
   return clone;
 }
 
 function renderAllTasks() {
-  // TODO M1.4: Netejar els contenidors i renderitzar les tasques de 'state' al seu contenidor corresponent
   document.getElementById('todo-list').innerHTML = '';
   document.getElementById('in-progress-list').innerHTML = '';
   document.getElementById('done-list').innerHTML = '';
@@ -61,10 +61,11 @@ function renderAllTasks() {
 }
 
 
+// ---- Eventos ----
+
 function setupEventListeners() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    // TODO M2.4: Afegir nova tasca a 'state' i renderitzar-la al DOM
     const title = document.getElementById('task-title-input').value;
     const description = document.getElementById('task-desc-input').value;
     const status = document.getElementById('task-status-select').value;
@@ -84,10 +85,6 @@ function setupEventListeners() {
     form.reset();
   });
 
-  // TODO M2.5: Escoltar l'esdeveniment 'change' al board per quan es canvia l'estat del select:
-  // - Trobar la targeta amb closest('.task-card')
-  // - Llegir el nou estat i moure la targeta al seu contenidor (#todo-list, #in-progress-list, #done-list) amb appendChild
-  // - Actualitzar l'estat a 'state' i la classe '.completed'
 
   board.addEventListener('change', (e) => {
     if (e.target.classList.contains('task-status-select')) {
@@ -126,7 +123,6 @@ function setupEventListeners() {
   board.addEventListener('click', (e) => {
     const target = e.target;
 
-    // TODO M4: Acordió (closest + nextElementSibling + .collapsed)
 
     const accordionButton = target.closest('.column-header');
 
@@ -135,7 +131,6 @@ function setupEventListeners() {
       content.classList.toggle('collapsed');
     }
 
-    // TODO M2: Botó eliminar (closest + dataset.taskId + .remove())
 
     const deleteButton = target.closest('.btn-delete');
 
@@ -150,7 +145,6 @@ function setupEventListeners() {
       updateTaskCount();
     }
 
-    // TODO M3: Botons pujar/baixar (previousElementSibling / nextElementSibling + insertBefore)
 
     const upButton = target.closest('.btn-up');
     const downButton = target.closest('.btn-down');
@@ -175,12 +169,12 @@ function setupEventListeners() {
   });
 }
 
-// MÒDUL 5: WEB COMPONENT
+// ---- Web Component: contador ----
+
 class TaskBadge extends HTMLElement {
   constructor() {
     super();
 
-    // TODO M5.1: Attach shadow root
     this.attachShadow({ mode: 'open' });
   }
 
@@ -193,7 +187,6 @@ class TaskBadge extends HTMLElement {
   }
 
   render() {
-    // TODO M5.2: Renderització de l'etiqueta
 
     const count = this.getAttribute('count') || '0';
 
@@ -219,7 +212,6 @@ class TaskBadge extends HTMLElement {
 customElements.define('task-badge', TaskBadge);
 
 function updateTaskCount() {
-  // TODO M5.3: Actualitzar l'atribut count de #global-badge
 
   const badge = document.getElementById('global-badge');
 
@@ -228,7 +220,8 @@ function updateTaskCount() {
   badge.setAttribute('count', count);
 }
 
-// Crea un Sortable por cada columna; todas en el mismo grupo para poder moverse entre ellas
+// ---- Drag & drop (SortableJS) ----
+
 function initDragAndDrop() {
   document.querySelectorAll('.column-content').forEach(list => {
     Sortable.create(list, {
@@ -239,7 +232,6 @@ function initDragAndDrop() {
       ghostClass: 'sortable-ghost',
       chosenClass: 'sortable-chosen',
       dragClass: 'sortable-drag',
-      // Clon propio en lugar de la imagen nativa del navegador, para poder darle estilo
       forceFallback: true,
       fallbackClass: 'sortable-fallback',
       emptyInsertThreshold: 40,
@@ -249,16 +241,14 @@ function initDragAndDrop() {
   });
 }
 
-// Se ejecuta al soltar una tarjeta
 function handleDragEnd(evt) {
   const card = evt.item;
   const newStatus = evt.to.closest('.column').dataset.status;
 
   board.classList.remove('is-dragging');
 
-  // Pequeño destello al soltar la tarjeta
   card.classList.remove('just-moved');
-  void card.offsetWidth; // reinicia la animación si se repite
+  void card.offsetWidth;
   card.classList.add('just-moved');
   card.addEventListener('animationend', () => card.classList.remove('just-moved'), { once: true });
 
@@ -269,7 +259,6 @@ function handleDragEnd(evt) {
   updateTaskCount();
 }
 
-// Reconstruye 'state' según el orden y la columna reales del DOM
 function syncStateFromDOM() {
   const newState = [];
   document.querySelectorAll('.column').forEach(column => {
@@ -284,7 +273,8 @@ function syncStateFromDOM() {
   state = newState;
 }
 
-// ejecuta el tutorial en el boton de ayuda
+// ---- Tutorial (Driver.js) ----
+
 function setupHelpTour() {
   document.getElementById('btn-help').addEventListener('click', startTour);
 }
